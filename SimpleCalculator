@@ -1,0 +1,73 @@
+import fractions
+
+
+def get_input():
+    try:
+        no1 = int(input("Input first value: "))
+        no2 = int(input("Input second value: "))
+        return no1, no2
+    except:
+        print("--INVALID--")
+        return get_input()
+
+
+value1, value2 = get_input()
+
+
+def addition(val1, val2):
+    return val1 + val2
+
+
+def subtraction(val1, val2):
+    return val1 - val2
+
+
+def multiplication(val1, val2):
+    return val1 * val2
+
+
+def division(val1, val2):
+    return val1 / val2
+
+
+def get_operation():
+    return input("Enter the operation (+,-,*,/): ")
+
+
+def solve(val1, val2):
+    _result = ""
+    match get_operation():
+        case "+":
+            _result = addition(val1, val2)
+        case "-":
+            _result = subtraction(val1, val2)
+        case "*":
+            _result = multiplication(val1, val2)
+        case "/":
+            _result = division(val1, val2)
+        case _:
+            print("INVALID OPERATION")
+            return solve(val1, val2)
+
+    if _result:
+        return _result
+
+
+def convert_bool(_result):
+    try:
+        input_bool = input("Want to convert answer to a/ fraction?:(y/n) ").lower()
+    except:
+        return convert_bool()
+
+    if input_bool == "y":
+        return fraction(_result)
+
+
+def fraction(_result):
+    _result = fractions.Fraction(_result).limit_denominator()
+    return _result
+
+
+result = solve(value1, value2)
+print(result)
+print(convert_bool(result))
