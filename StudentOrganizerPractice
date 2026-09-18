@@ -1,0 +1,72 @@
+class Student:
+    def __init__(self, name, grade):
+        self.name = name
+        self.grade = grade
+
+students_dic = {}
+students = ", ".join(students_dic)
+is_running = True
+
+def get_name():
+    _name = input("Input student name: ")
+    if _name.replace(" ", "").isalpha():
+        _split_name = _name.split()
+
+        return " ".join(_split_name).title()
+    else:
+        print("Name should only be English letters")
+        return get_name()
+
+def get_grade():
+    try:
+        _grade = int(input("Input student grade: "))
+        if _grade in range(1,13):
+            return _grade
+        else:
+            print("Grade must be from 1 to 12")
+            return get_grade()
+    except ValueError:
+        print("Grade must be an INTEGER (1 to 12)")
+        return get_grade()
+    except Exception:
+        print("Error occurred")
+        return get_grade()
+
+def print_students():
+    print("--------------------------------------------->")
+    print("Currently enrolled students [Name : Grade]: ", end="")
+
+    for x in students_dic.items():
+        print(f"{x[0]} : {x[1]}", end = "")
+
+        if not x[0] == tuple(students_dic)[len(students_dic)-1]:
+            print(", ", end="")
+    print("\n--------------------------------------------->")
+
+while is_running:
+    new_student = Student(get_name(), get_grade())
+    students_dic.update({new_student.name:new_student.grade})
+
+    print_students()
+
+    while True:
+        match input("Enroll new student? (y/n) or (x) to remove a student: ").lower():
+            case "y":
+                break
+            case "n":
+                is_running = False
+                break
+            case "x":
+                try:
+                    students_dic.pop(input("Enter the student name to be removed: ").title())
+                    print_students()
+                except KeyError:
+                    print("Name not found")
+                except Exception:
+                    print_students()
+                    continue
+            case _:
+                print("INVALID INPUT")
+                continue
+
+
